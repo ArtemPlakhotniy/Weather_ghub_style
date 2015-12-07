@@ -142,29 +142,57 @@ public class MainActivity extends AppCompatActivity {
             mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    switch (position) {
+                    //**************************************
+                    switch (position){
                         case 0:
-                            mainList.setVisibility(View.GONE);
-                            transaction.replace(R.id.buffer2, df1).addToBackStack(null).commit();
+                            Intent i = new Intent(getApplication(), SecondActivity.class);
+                            i.putExtra("key", position);
+                            startActivity(i);
                             break;
                         case 1:
-                            mainList.setVisibility(View.GONE);
-                            transaction.replace(R.id.buffer2, df2).addToBackStack(null).commit();;
+                            Intent j = new Intent(getApplication(), SecondActivity.class);
+                            j.putExtra("key", position);
+                            startActivity(j);
                             break;
                         case 2:
-                            mainList.setVisibility(View.GONE);
-                            transaction.replace(R.id.buffer2, df3).addToBackStack(null).commit();;
+                            Intent k = new Intent(getApplication(), SecondActivity.class);
+                            k.putExtra("key", position);
+                            startActivity(k);
                             break;
                         case 3:
-                            mainList.setVisibility(View.GONE);
-                            transaction.replace(R.id.buffer2, df4).addToBackStack(null).commit();;
+                            Intent l = new Intent(getApplication(), SecondActivity.class);
+                            l.putExtra("key", position);
+                            startActivity(l);
                             break;
                         case 4:
-                            mainList.setVisibility(View.GONE);
-                            transaction.replace(R.id.buffer2, df5).addToBackStack(null).commit();;
+                            Intent m = new Intent(getApplication(), SecondActivity.class);
+                            m.putExtra("key", position);
+                            startActivity(m);
                             break;
                     }
+//                    FragmentTransaction transaction = fm.beginTransaction();
+//                    switch (position) {
+//                        case 0:
+//                            mainList.setVisibility(View.GONE);
+//                            transaction.replace(R.id.buffer2, df1).addToBackStack(null).commit();
+//                            break;
+//                        case 1:
+//                            mainList.setVisibility(View.GONE);
+//                            transaction.replace(R.id.buffer2, df2).addToBackStack(null).commit();;
+//                            break;
+//                        case 2:
+//                            mainList.setVisibility(View.GONE);
+//                            transaction.replace(R.id.buffer2, df3).addToBackStack(null).commit();;
+//                            break;
+//                        case 3:
+//                            mainList.setVisibility(View.GONE);
+//                            transaction.replace(R.id.buffer2, df4).addToBackStack(null).commit();;
+//                            break;
+//                        case 4:
+//                            mainList.setVisibility(View.GONE);
+//                            transaction.replace(R.id.buffer2, df5).addToBackStack(null).commit();;
+//                            break;
+//                    }
                 }
             });
         }
