@@ -1,24 +1,16 @@
 package com.example.minorius.weather_ghub;
-//START
+//START**********
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Entity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.media.Image;
 import android.net.ConnectivityManager;
-import android.net.http.HttpResponseCache;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,21 +23,18 @@ import com.example.minorius.weather_ghub.descriptoin_fragments.Df2;
 import com.example.minorius.weather_ghub.descriptoin_fragments.Df3;
 import com.example.minorius.weather_ghub.descriptoin_fragments.Df4;
 import com.example.minorius.weather_ghub.descriptoin_fragments.Df5;
-import com.squareup.picasso.Picasso;
+import com.example.minorius.weather_ghub.service.MyService;
 
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -56,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<UpData> fetch = new ArrayList<UpData>();
     private ListView lv;
 
-    private GetData gd;
+   public GetData gd;
 
     Df1 df1;
     Df2 df2;
@@ -75,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        gd = new GetData();
+        gd.execute();
+
+        Intent intent = new Intent(getApplicationContext(), MyService.class);
+        startService(intent);
+
 
         if(isNetworkConnected() == false){
 
@@ -98,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
-        final GetData gd = new GetData();
-        gd.execute();
 
         df1 = new Df1();
         df2 = new Df2();
@@ -207,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
         return cm.getActiveNetworkInfo() != null;
     }
 
