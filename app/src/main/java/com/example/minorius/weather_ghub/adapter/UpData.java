@@ -19,11 +19,21 @@ public class UpData extends MainActivity {
     String date;
     String temp;
     String p;
+    String icon;
 
-    public UpData(String date, String temp, String p) {
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public UpData(String date, String temp, String p, String icon) {
         this.date = date;
         this.temp = temp;
         this.p = p;
+        this.icon = icon;
     }
 
     public String getDate() {

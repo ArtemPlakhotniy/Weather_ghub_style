@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.minorius.weather_ghub.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,10 +40,11 @@ public class WorkingAdapter extends ArrayAdapter<UpData> {
             holder.txtWeather = (TextView) v.findViewById(R.id.txtWeather);
             holder.textView = (TextView) v.findViewById(R.id.textView);
 
+            holder.iconProt = (ImageView) v.findViewById(R.id.iconProt);
+
+
             Typeface tf_w = Typeface.createFromAsset(getContext().getAssets(), "fonts/Weather.ttf");
             holder.txtWeather.setTypeface(tf_w);
-
-
 
             Typeface tf_d = Typeface.createFromAsset(getContext().getAssets(), "fonts/date.otf");
             holder.textView.setTypeface(tf_d);
@@ -49,6 +52,7 @@ public class WorkingAdapter extends ArrayAdapter<UpData> {
             holder.txtDate.setTypeface(tf_d);
 
             v.setTag(holder);
+
         } else {
             holder = (ViewHolder)v.getTag();
         }
@@ -59,6 +63,11 @@ public class WorkingAdapter extends ArrayAdapter<UpData> {
             holder.txtDate.setText(upData.getDate());
             holder.txtTemp.setText(upData.getTemp());
             holder.txtWeather.setText(upData.getP());
+            //holder.test.setText(upData.getIcon());
+
+            Picasso.with(getContext())
+                    .load(upData.getIcon())
+                    .into(holder.iconProt);
 
         }
         return v;
@@ -69,6 +78,8 @@ public class WorkingAdapter extends ArrayAdapter<UpData> {
         public TextView txtTemp;
         public TextView txtWeather;
         public TextView textView;
+
+        public ImageView iconProt;
 
     }
 }

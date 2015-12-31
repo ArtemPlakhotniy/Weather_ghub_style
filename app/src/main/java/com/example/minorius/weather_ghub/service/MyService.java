@@ -1,5 +1,6 @@
 package com.example.minorius.weather_ghub.service;
 //START**********
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.ListView;
@@ -53,7 +55,7 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        callAsynchronousTask();
+       callAsynchronousTask();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -68,6 +70,7 @@ public class MyService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void showNotification(){
         nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder builder = new  Notification.Builder(getApplicationContext());
@@ -79,7 +82,8 @@ public class MyService extends Service {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker("update")
-                .addAction(R.mipmap.ic_launcher, "Click to update", pendingIntent)
+                .addAction(R.mipmap.cached, "Click to update", pendingIntent)
+                //.addAction(R.mipmap.cached, "Clear cash", pendingIntent)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
                 .setContentTitle("Click for open app")
@@ -134,6 +138,7 @@ public class MyService extends Service {
            try {
                dataJsonObj = new JSONObject((String) result);
                JSONArray list = dataJsonObj.getJSONArray("list");
+
                for (int i = 0; i < 5; i++) {
                    JSONObject element = list.getJSONObject(i);
                    JSONObject main = element.getJSONObject("main");
@@ -156,33 +161,40 @@ public class MyService extends Service {
                    int humidity = main.getInt("humidity");
                    double speed = wind.getDouble("speed");
 
+                   String url_for_img1 = url_for_img + icon + ".png";
+
                    Realm realm =  Realm.getInstance(getApplicationContext());
                    realm.beginTransaction();
 
                    WeatherDbase weatherDbase = realm.createObject(WeatherDbase.class);
 
+
                    weatherDbase.setDataInDb(date + "");
                    weatherDbase.setTempInDb(temp_in_c + "");
                    weatherDbase.setDirectionInDb(p);
                    weatherDbase.setWindSpeedInDb(speed + "");
-                   weatherDbase.setHumidityInDb(humidity +"");
+                   weatherDbase.setHumidityInDb(humidity + "");
+                   weatherDbase.setIconInDb(url_for_img1 + "");
 
                    RealmResults<WeatherDbase> results = realm.where(WeatherDbase.class).findAll();
 
                    int count = results.size();
-//                   if(count > 100){
-//                       results.clear();
-//                   }else {
-//
-//                   }
+                   if(count > 200){
+                       for(int l = 1; l <= 100; l++){
+                           WeatherDbase weatherDbase1 = results.get(i);
+                           weatherDbase1.removeFromRealm();
 
-//                   Toast.makeText(getApplicationContext(), ""+ count, Toast.LENGTH_SHORT).show();
+                       }
+                   }
+
+                   //Toast.makeText(getApplicationContext(), ""+ count, Toast.LENGTH_SHORT).show();
+
                    realm.commitTransaction();
 
 
                }
            } catch (Exception e) {
-               //   Toast.makeText(getApplicationContext(), "error " + e, Toast.LENGTH_LONG).show();
+               //Toast.makeText(getApplicationContext(), "error " + e, Toast.LENGTH_LONG).show();
            }
        }
    }
@@ -206,7 +218,7 @@ public class MyService extends Service {
                 });
             }
         };
-        timer.schedule(doAsynchronousTask, 0, 20000);
+        timer.schedule(doAsynchronousTask, 0, 180000);
     }
 
 }

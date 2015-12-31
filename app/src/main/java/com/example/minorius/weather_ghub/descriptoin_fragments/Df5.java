@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.minorius.weather_ghub.R;
 import com.example.minorius.weather_ghub.WeatherDb.WeatherDbase;
+import com.squareup.picasso.Picasso;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -25,6 +27,8 @@ public class Df5 extends Fragment {
     TextView txtF3_5;
     TextView txtF4_5;
     TextView txtF5_5;
+
+    ImageView iconImg_5;
 
     @Nullable
     @Override
@@ -42,6 +46,8 @@ public class Df5 extends Fragment {
         txtF4_5 = (TextView) getView().findViewById(R.id.txtF4_5);
         txtF5_5 = (TextView) getView().findViewById(R.id.txtF5_5);
 
+        iconImg_5 = (ImageView) getView().findViewById(R.id.iconImg_5);
+
         Realm realm =  Realm.getInstance(getActivity());
         RealmResults<WeatherDbase> results = realm.where(WeatherDbase.class).findAll();
 
@@ -55,6 +61,11 @@ public class Df5 extends Fragment {
             txtF3_5.setText(""+ results.get(count - 1).getDirectionInDb());
             txtF4_5.setText(""+ results.get(count - 1).getWindSpeedInDb());
             txtF5_5.setText(""+ results.get(count - 1).getHumidityInDb());
+
+            String img = results.get(count - 1).getIconInDb();
+            Picasso.with(getView().getContext())
+                    .load(img)
+                    .into(iconImg_5);
         }
         realm.commitTransaction();
     }

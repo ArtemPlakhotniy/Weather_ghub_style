@@ -52,4 +52,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iconProt"
+        android:layout_below="@+id/txtDate" />
+
+
 </RelativeLayout>
